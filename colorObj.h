@@ -7,7 +7,7 @@
 //#define PRINT_COLOR
 
 //                       Red,Grn,blu
-#define LC_BLACK          0,  0,  0
+#define LC_BLACK         0,  0,  0
 #define LC_CHARCOAL      50, 50, 50
 #define LC_DARK_GREY    140,140,140
 #define LC_GREY         185,185,185
@@ -33,16 +33,10 @@
 #define LC_MAGENTA      255,  0,255
 #define LC_YELLOW       255,255,  0
 
-/*
-  Need to store lots of colors efficiently, like in a bitmap image? 
 
-  The `RGBpack` structure offers a compact alternative to `colorObj` 
-  for storing color information. While a `colorObj` uses 8 bytes per color, 
-  `RGBpack` achieves the same using just 3 bytes per pixel. This makes 
-  `RGBpack` ideal for situations where storage space and processing speed 
-  are critical.
-*/
-
+// If you want a LOT of colorObj(s) saved. Like a bitmap?
+// The RGBpack is 3 bytes per pixel as opposed to 8 for
+// the color object itself. Same color information.
 struct RGBpack {
   uint8_t r;
   uint8_t g;
@@ -65,7 +59,7 @@ public:
   virtual   void        setColor(word color16);
   virtual   void        setColor(colorObj* inColor);       // Why doesn't this one get confused? Who knows?
                 word        getColor16(void);
-                byte        getGrayscale(void);
+                byte        getGreyscale(void);
 
                 byte        getRed(void);
                 byte        getGreen(void);
@@ -95,29 +89,32 @@ extern colorObj magenta;
 extern colorObj yellow;
 
 
+
 // ****** colorMapper ******
+
 
 class colorMapper {
 
-    public:
-                colorMapper(void);
-                colorMapper(colorObj* inStart, colorObj* inEnd);
-                colorMapper(word startC16,word endC16);
-    virtual ~colorMapper(void);
+	public:
+				colorMapper(void);
+				colorMapper(colorObj* inStart, colorObj* inEnd);
+				colorMapper(word startC16,word endC16);
+	virtual	~colorMapper(void);
 
-                void        setColors(colorObj* inStart, colorObj* inEnd);
-                colorObj Map(float percent);
-                colorObj map(float percent);
+				void		setColors(colorObj* inStart, colorObj* inEnd);
+				colorObj	Map(float percent);
+				colorObj	map(float percent);
 
 #ifdef PRINT_COLOR
-                void     printColors(void);
+				void		printColors(void);
 #endif
 
     private :
-                mapper* redMapper;
-                mapper* greenMapper;
-                mapper* blueMapper;
+				mapper*	redMapper;
+				mapper*	greenMapper;
+				mapper*	blueMapper;
 };
+
 
 
 // ****** colorMultiMap ******
@@ -125,18 +122,18 @@ class colorMapper {
 
 class colorMultiMap {
 
-    public:
-                colorMultiMap(void);
-    virtual ~colorMultiMap(void);
+	public:
+				colorMultiMap(void);
+	virtual	~colorMultiMap(void);
 
-                void    addColor(double inX, colorObj* color);  // At some numeric value we resolve to this color.
-                void    clearMap(void);
-                colorObj    map(double inVal);
+	virtual	void		addColor(double inX, colorObj* color);  // At some numeric value we resolve to this color.
+	virtual	void		clearMap(void);
+				colorObj	map(double inVal);
 
     protected:
-                multiMap  redMap;
-                multiMap  greenMap;
-                multiMap  blueMap;
+				multiMap  redMap;
+				multiMap  greenMap;
+				multiMap  blueMap;
 };
 
 
